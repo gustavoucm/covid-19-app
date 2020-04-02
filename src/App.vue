@@ -28,8 +28,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        to="/global"
         text
       >
         <span class="mr-2">Global</span>
@@ -50,7 +49,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="main-background">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -70,5 +69,8 @@ export default {
 <style>
   * {
     font-family: 'Roboto';
+  }
+  .main-background {
+    background-color: #F8F7FF;
   }
 </style>

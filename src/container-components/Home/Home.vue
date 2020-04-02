@@ -74,8 +74,10 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].new_deaths}}</p>
-                <h2 class="text-center pt-3">Nuevas dfunciones</h2>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].new_deaths === '' ? '-' : data.latest_stat_by_country[0].new_deaths
+                }}</p>
+                <h2 class="text-center pt-3">Nuevas defunciones</h2>
               </v-card-text>
             </v-card>
           </v-col>
@@ -94,8 +96,16 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col offset-xs="1" xs="10">
+      <v-col offset-sm="1" sm="10">
         <p class="text-right">* Información recabada el día {{currentDate}}</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col sm="10" offset-sm="1" width="100%" height="60vh">
+        <iframe
+          class="map"
+          src="https://www.google.com/maps/d/embed?mid=1-XnTNpU7R4XiVewJh_nwcpUrtGgd4gwu">
+        </iframe>
       </v-col>
     </v-row>
   </div>
@@ -108,30 +118,35 @@ export default {
     return {
       currentDate: '',
       data: {
-        country: 'Mexico',
+        country: '',
         latest_stat_by_country: [
           {
-            id: '384671',
-            country_name: 'Mexico',
-            total_cases: '1,215',
-            new_cases: '121',
-            active_cases: '1,151',
-            total_deaths: '29',
-            new_deaths: '1',
-            total_recovered: '35',
-            serious_critical: '1',
+            id: '',
+            country_name: '',
+            total_cases: '-',
+            new_cases: '-',
+            active_cases: '-',
+            total_deaths: '-',
+            new_deaths: '-',
+            total_recovered: '-',
+            serious_critical: '-',
             region: null,
-            total_cases_per1m: '9',
-            record_date: '2020-04-01 04:30:01.645'
+            total_cases_per1m: '-',
+            record_date: ''
           }
         ]
       }
     }
   },
   created() {
-    let date = new Date(this.data.latest_stat_by_country[0].record_date)
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-    this.currentDate = date.toLocaleDateString("es-ES", options)
+    this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: 'Mexico'}})
+  },
+  methods: {
+    getDate () {
+      let date = new Date(this.data.latest_stat_by_country[0].record_date)
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+      this.currentDate = date.toLocaleDateString("es-ES", options)
+    }
   }
 }
 </script>
@@ -144,5 +159,9 @@ export default {
   }
   .mex {
     margin: 0 auto;
+  }
+  .map {
+    width: 100%;
+    height: 80vh;
   }
 </style>

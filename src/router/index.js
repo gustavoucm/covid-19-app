@@ -7,6 +7,12 @@ const HomeComponent = resolve => {
   })
 }
 
+const GlobalComponent = resolve => {
+  require.ensure(['../container-components/Global/Global'], () => {
+    resolve(require('../container-components/Global/Global'))
+  })
+}
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -14,6 +20,11 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: HomeComponent
+    },
+    {
+      path: '/global',
+      name: 'global',
+      component: GlobalComponent
     }
   ]
 })
