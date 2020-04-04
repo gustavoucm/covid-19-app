@@ -24,6 +24,91 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
+                  data.cases.total  === '' ? 'En proceso': format(data.cases.total, false)
+                }}</p>
+                <h2 class="text-center pt-3">Casos confirmados</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
+                  data.deaths.total === '' ? 'En proceso': format(data.deaths.total, false)
+                }}</p>
+                <h2 class="text-center pt-3">Defunciones</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
+                  data.cases.critical === '' ? 'En proceso' : format(data.cases.critical, false)
+                }}</p>
+                <h2 class="text-center">Casos criticos</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
+                  data.cases.new === '' ? 'En proceso': format(data.cases.new, true)
+                }}</p>
+                <h2 class="text-center">Nuevos casos</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
+                  data.deaths.new === '' ? 'En proceso': format(data.deaths.new, true)
+                }}</p>
+                <h2 class="text-center">Nuevas defunciones</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
+                  data.cases.recovered  === '' ? 'En proceso' : format(data.cases.recovered, false)
+                }}</p>
+                <h2 class="text-center pt-3">Total de recuperados</h2>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+    <!--
+    <v-row>
+      <v-col offset-md="1" md="10">
+        <v-row>
+          <v-col class="mb-5" md="4" sm="6">
+            <v-card
+              class="d-flex align-content-center flex-wrap mx-auto"
+              width="200"
+              height="200">
+              <v-card-text>
+                <p class="text-center number">{{
                   data.latest_stat_by_country[0].total_cases  === '' ? 'En proceso': data.latest_stat_by_country[0].total_cases
                 }}</p>
                 <h2 class="text-center pt-3">Casos confirmados</h2>
@@ -97,7 +182,7 @@
           </v-col>
         </v-row>
       </v-col>
-    </v-row>
+    </v-row>-->
     <v-row>
       <v-col offset-sm="1" sm="10">
         <p class="text-right">* Información recabada el día {{currentDate}}</p>
@@ -115,6 +200,7 @@ export default {
       currentDate: '',
       nameURI: '',
       showCountryInfo: false,
+      /*
       data: {
         country: '',
         latest_stat_by_country: [
@@ -133,23 +219,47 @@ export default {
             record_date: ''
           }
         ]
+      },*/
+      data: {
+        country: '',
+        cases: {
+          new: '',
+          active: 0,
+          critical: 0,
+          recovered: 0,
+          total: 0
+        },
+        deaths: {
+          new: '',
+          total: 0
+        },
+        day: '',
+        time: ''
       },
-      countryInfo: null,
+      countryInfo: null
     }
   },
   created () {
     this.nameURI = this.$route.params.name
-    this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
+    // this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
+    this.$store.dispatch('coronavirus/getStatistics',{event: {context: this, country: this.nameURI}})
   },
   methods: {
     getDate () {
-      let date = new Date(this.data.latest_stat_by_country[0].record_date)
+      let date = new Date(this.data.day)
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       this.currentDate = date.toLocaleDateString("es-ES", options)
       this.getCountryInfo()
     },
     getCountryInfo () {
       this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this. nameURI}})
+    },
+    format (number, opt) {
+      if (opt) {
+        number = number.substring(1)
+        return '+' + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      }
+      return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
   }
 }

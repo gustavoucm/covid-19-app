@@ -12,6 +12,10 @@ const mutations = {
   onGetCountryInfo(state, payload) {
     payload.event.context.countryInfo = payload.response.data[0]
     payload.event.context.showCountryInfo = true
+  },
+  onGetStatistics(state, payload) {
+    payload.event.context.data = payload.response.data.response[0]
+    payload.event.context.getDate()
   }
 }
 
