@@ -13,7 +13,7 @@
           height="200">
           <v-card-text>
             <p class="text-center number">{{worldStat.total_cases}}</p>
-            <h2 class="text-center pt-3">Casos confirmados</h2>
+            <h2 class="text-center">Casos confirmados</h2>
           </v-card-text>
         </v-card>
       </v-col>
@@ -24,7 +24,7 @@
           height="200">
           <v-card-text>
             <p class="text-center number">{{worldStat.total_deaths}}</p>
-            <h2 class="text-center pt-3">Defunciones</h2>
+            <h2 class="text-center">Defunciones</h2>
           </v-card-text>
         </v-card>
       </v-col>
@@ -35,7 +35,7 @@
           height="200">
           <v-card-text>
             <p class="text-center number">{{worldStat.total_recovered}}</p>
-            <h2 class="text-center pt-3">Casos recuperados</h2>
+            <h2 class="text-center">Casos recuperados</h2>
           </v-card-text>
         </v-card>
       </v-col>
@@ -53,15 +53,23 @@
             <v-text-field v-model="search" label="Buscar" class="mx-4"></v-text-field>
           </template>
           <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="viewInfo(item)"
-      >
-        mdi-pencil
-      </v-icon>
+            <v-icon
+              small
+              class="mr-2"
+              @click="viewInfo(item)"
+            >
+              mdi-eye
+            </v-icon>
           </template>
         </v-data-table>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col sm="10" offset-sm="1" width="100%" height="60vh">
+        <iframe
+          class="map mb-5"
+          src="https://www.google.com/maps/d/embed?mid=1S0vCi3BA-7DOCS13MomK7KebkPsvYl8C">
+        </iframe>
       </v-col>
     </v-row>
   </div>
@@ -82,6 +90,14 @@ export default {
         new_deaths: '',
         statistic_taken_at: '',
       },
+      pagination: {
+        descending: true,
+        page: 1,
+        orderBy: 'country_name',
+        sortBy: 'country_name',
+        rowsPerPage: 10, // -1 for All",
+        totalItems: 10
+      },
       headers: [
         {
           text: 'Pais',
@@ -91,7 +107,7 @@ export default {
         { text: 'Casos', value: 'cases' },
         
         { text: 'Muertes', value: 'deaths' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: 'Acciones', value: 'actions', sortable: false }
       ]
     }
   },
@@ -101,7 +117,15 @@ export default {
   },
   methods: {
     viewInfo (info) {
-      console.log(info)
+      this.$router.push('/country/'+ encodeURI(info.country_name))
+    },
+    changeSort (header) {
+      if (this.pagination.sortBy === header) {
+        this.pagination.descending = !this.pagination.descending
+      } else {
+        this.pagination.descending = false
+      }
+      this.pagination.sortBy = header
     }
   }
 }
@@ -112,5 +136,10 @@ export default {
     font-size: 45px;
     color: #e74c3c;
     font-weight: 700;
+    line-height: 38px;
+  }
+  .map {
+    width: 100%;
+    height: 80vh;
   }
 </style>

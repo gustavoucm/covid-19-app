@@ -1,4 +1,4 @@
-import {http} from '../../../main'
+import {http, httpCountry} from '../../../main'
 
 const actions = {
   /* eslint-disable */
@@ -34,6 +34,17 @@ const actions = {
     http.get(url, {}, {})
       .then(response => {
         commit('onGetWorldStat', {event: payload.event, response})
+      },
+      error => {
+        commit('onError', {event: event.payload, error})
+      })
+  },
+  getCountryInfo ({commit, dispatch}, payload) {
+    let country = payload.event.country
+    let url = `name/${country}?fullText=true`
+    httpCountry.get(url, {}, {})
+      .then(response => {
+        commit('onGetCountryInfo', {event: payload.event, response})
       },
       error => {
         commit('onError', {event: event.payload, error})

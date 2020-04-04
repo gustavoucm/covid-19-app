@@ -1,28 +1,17 @@
 <template>
   <div>
-    <v-parallax
-      dark
-      height="600"
-      src="../../assets/img/background.jpg"
-    >
-      <v-row
-        align="center"
-        justify="center"
-      >
-        <v-col class="text-center" cols="12">
-          <h1 class="display-4 mb-4">COVID-19</h1>
-          <h4 class="display-2">México</h4>
-        </v-col>
-      </v-row>
-    </v-parallax>
-    <h1 class="text-center mt-5 mb-5 ml-2 mr-2">Panorama actual en México</h1>
-    <v-row>
-      <v-col xs="12">
-      <img
-        src="../../assets/img/mexico.svg"
-        alt=""
-        width="180"
-        class="d-flex justify-center mex">
+    <v-row
+      v-if="showCountryInfo">
+      <v-col
+        md="10"
+        class="text-center"
+        offset-md="1">
+        <h1>{{countryInfo.translations.es}}</h1>
+        <img
+          :src="countryInfo.flag"
+           width="350"
+          :alt="countryInfo.translations.es + ' flag'"
+          class="d-flex justify-center mex flag mt-3">
       </v-col>
     </v-row>
     <v-row>
@@ -34,7 +23,9 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_cases}}</p>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].total_cases  === '' ? 'En proceso': data.latest_stat_by_country[0].total_cases
+                }}</p>
                 <h2 class="text-center pt-3">Casos confirmados</h2>
               </v-card-text>
             </v-card>
@@ -45,7 +36,9 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_deaths}}</p>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].total_deaths === '' ? 'En proceso': data.latest_stat_by_country[0].total_deaths
+                }}</p>
                 <h2 class="text-center pt-3">Defunciones</h2>
               </v-card-text>
             </v-card>
@@ -56,7 +49,9 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].serious_critical}}</p>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].serious_critical === '' ? 'En proceso' : data.latest_stat_by_country[0].serious_critical
+                }}</p>
                 <h2 class="text-center">Casos criticos</h2>
               </v-card-text>
             </v-card>
@@ -67,7 +62,9 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].new_cases}}</p>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].new_cases  === '' ? 'En proceso' :data.latest_stat_by_country[0].new_cases
+                }}</p>
                 <h2 class="text-center">Nuevos casos</h2>
               </v-card-text>
             </v-card>
@@ -79,7 +76,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.latest_stat_by_country[0].new_deaths === '' ? '-' : data.latest_stat_by_country[0].new_deaths
+                  data.latest_stat_by_country[0].new_deaths === '' ? 'En proceso' : data.latest_stat_by_country[0].new_deaths
                 }}</p>
                 <h2 class="text-center">Nuevas defunciones</h2>
               </v-card-text>
@@ -91,7 +88,9 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_cases_per1m}}</p>
+                <p class="text-center number">{{
+                  data.latest_stat_by_country[0].total_cases_per1m  === '' ? 'En proceso' : data.latest_stat_by_country[0].total_cases_per1m
+                }}</p>
                 <h2 class="text-center pt-3">Casos por cada millón de habitantes</h2>
               </v-card-text>
             </v-card>
@@ -104,23 +103,18 @@
         <p class="text-right">* Información recabada el día {{currentDate}}</p>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col sm="10" offset-sm="1" width="100%" height="60vh">
-        <iframe
-          class="map mb-5"
-          src="https://www.google.com/maps/d/embed?mid=1-XnTNpU7R4XiVewJh_nwcpUrtGgd4gwu">
-        </iframe>
-      </v-col>
-    </v-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomeComponent',
+  name: 'countryComponent',
   data () {
     return {
+      country: '',
       currentDate: '',
+      nameURI: '',
+      showCountryInfo: false,
       data: {
         country: '',
         latest_stat_by_country: [
@@ -139,17 +133,23 @@ export default {
             record_date: ''
           }
         ]
-      }
+      },
+      countryInfo: null,
     }
   },
-  created() {
-    this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: 'Mexico'}})
+  created () {
+    this.nameURI = this.$route.params.name
+    this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
   },
   methods: {
     getDate () {
       let date = new Date(this.data.latest_stat_by_country[0].record_date)
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       this.currentDate = date.toLocaleDateString("es-ES", options)
+      this.getCountryInfo()
+    },
+    getCountryInfo () {
+      this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this. nameURI}})
     }
   }
 }
@@ -157,16 +157,12 @@ export default {
 
 <style scoped>
   .number {
-    font-size: 50px;
+    font-size: 45px;
     color: #e74c3c;
     font-weight: 700;
     line-height: 38px;
   }
-  .mex {
+  .flag {
     margin: 0 auto;
-  }
-  .map {
-    width: 100%;
-    height: 80vh;
   }
 </style>

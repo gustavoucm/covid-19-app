@@ -14,6 +14,10 @@ export const http = Axios.create({
   baseURL: 'https://coronavirus-monitor.p.rapidapi.com/coronavirus/'
 })
 
+export const httpCountry = Axios.create({
+  baseURL: 'https://restcountries.eu/rest/v2/'
+})
+
 Vue.use(Vuex)
 
 Vue.config.productionTip = false

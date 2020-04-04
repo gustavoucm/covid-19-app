@@ -13,6 +13,12 @@ const GlobalComponent = resolve => {
   })
 }
 
+const CountryComponent = resolve => {
+  require.ensure(['../container-components/Country/Country'], () => {
+    resolve(require('../container-components/Country/Country'))
+  })
+}
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -25,6 +31,11 @@ const router = new Router({
       path: '/global',
       name: 'global',
       component: GlobalComponent
+    },
+    {
+      path: '/country/:name',
+      name: 'global',
+      component: CountryComponent
     }
   ]
 })

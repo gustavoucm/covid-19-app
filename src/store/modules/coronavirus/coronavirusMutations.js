@@ -8,6 +8,10 @@ const mutations = {
   },
   onGetWorldStat(state, payload) {
     payload.event.context.worldStat = payload.response.data
+  },
+  onGetCountryInfo(state, payload) {
+    payload.event.context.countryInfo = payload.response.data[0]
+    payload.event.context.showCountryInfo = true
   }
 }
 
