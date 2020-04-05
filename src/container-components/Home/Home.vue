@@ -67,7 +67,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].new_cases}}</p>
+                <p class="text-center number">+{{data.latest_stat_by_country[0].new_cases}}</p>
                 <h2 class="text-center">Nuevos casos</h2>
               </v-card-text>
             </v-card>
@@ -78,7 +78,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{
+                <p class="text-center number">+{{
                   data.latest_stat_by_country[0].new_deaths === '' ? '-' : data.latest_stat_by_country[0].new_deaths
                 }}</p>
                 <h2 class="text-center">Nuevas defunciones</h2>
@@ -105,6 +105,15 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col offset-sm="1" sm="10" class="mb-5">
+        <v-card>
+          <v-card-text>
+            <canvas id="line-chart" width="800" height="450"></canvas>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col sm="10" offset-sm="1" width="100%" height="60vh">
         <iframe
           class="map mb-5"
@@ -116,6 +125,7 @@
 </template>
 
 <script>
+import Chart from 'chart.js'
 export default {
   name: 'HomeComponent',
   data () {
@@ -139,6 +149,12 @@ export default {
             record_date: ''
           }
         ]
+      },
+      chart: {
+        labels: [],
+        data: [],
+        recovered: [],
+        deaths: []
       }
     }
   },
@@ -150,6 +166,28 @@ export default {
       let date = new Date(this.data.latest_stat_by_country[0].record_date)
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       this.currentDate = date.toLocaleDateString("es-ES", options)
+      this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country: 'Mexico'}})
+    },
+    generateChart () {
+      this.myChart = new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+          labels: this.chart.labels,
+          datasets: [{ 
+              data: this.chart.data,
+              label: "Confirmados",
+              borderColor: "#3e95cd",
+              fill: false
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Número de casos confirmados en México'
+          }
+        }
+      })
     }
   }
 }

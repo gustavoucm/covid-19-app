@@ -1,11 +1,21 @@
 <template>
   <div>
-    <v-row>
-      <v-col offset-sm="1" sm="10">
-        <h1 class="text-center mt-5 mb-5 ml-2 mr-2">Panorama Mundial</h1>
-      </v-col>
-    </v-row>
-    <v-row>
+    <v-parallax
+      dark
+      height="600"
+      src="../../assets/img/earth.jpg"
+    >
+      <v-row
+        class="parallax-row"
+        align="center"
+        justify="center"
+      >
+        <v-col class="text-center" cols="12">
+          <h1 class="display-4 mb-4">Panorama Mundial</h1>
+        </v-col>
+      </v-row>
+    </v-parallax>
+    <v-row class="mt-5">
       <v-col class="mb-5" md="4" sm="6">
         <v-card
           class="d-flex align-content-center flex-wrap mx-auto"
@@ -141,5 +151,8 @@ export default {
   .map {
     width: 100%;
     height: 80vh;
+  }
+  .parallax-row {
+    background-color: rgba(0,0,0,0.4) !important;
   }
 </style>

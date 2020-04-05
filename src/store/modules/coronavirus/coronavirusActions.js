@@ -61,6 +61,18 @@ const actions = {
       error => {
         commit('onError', {event: event.payload, error})
       })
+  },
+  getHistoryByCountry ({commit, dispatch}, payload) {
+    let url = `history?country=${payload.event.country}`
+    httpAS.defaults.headers.common['x-rapidapi-host'] = 'covid-193.p.rapidapi.com'
+    httpAS.defaults.headers.common['x-rapidapi-key'] = 'beff65a3c7mshcff81f1e403bdcep1bfd92jsnfb2bbf4a1692'
+    httpAS.get(url, {}, {})
+      .then(response => {
+        commit('onGetHistoryByCountry', {event: payload.event, response})
+      },
+      error => {
+        commit('onError', {event: event.payload, error})
+      })
   }
 }
 

@@ -24,7 +24,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.cases.total  === '' ? 'En proceso': format(data.cases.total, false)
+                  format(data.cases.total, false)
                 }}</p>
                 <h2 class="text-center pt-3">Casos confirmados</h2>
               </v-card-text>
@@ -37,7 +37,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.deaths.total === '' ? 'En proceso': format(data.deaths.total, false)
+                  format(data.deaths.total, false)
                 }}</p>
                 <h2 class="text-center pt-3">Defunciones</h2>
               </v-card-text>
@@ -50,7 +50,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.cases.critical === '' ? 'En proceso' : format(data.cases.critical, false)
+                  format(data.cases.critical, false)
                 }}</p>
                 <h2 class="text-center">Casos criticos</h2>
               </v-card-text>
@@ -63,7 +63,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.cases.new === '' ? 'En proceso': format(data.cases.new, true)
+                format(data.cases.new, true)
                 }}</p>
                 <h2 class="text-center">Nuevos casos</h2>
               </v-card-text>
@@ -76,7 +76,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.deaths.new === '' ? 'En proceso': format(data.deaths.new, true)
+                format(data.deaths.new, true)
                 }}</p>
                 <h2 class="text-center">Nuevas defunciones</h2>
               </v-card-text>
@@ -89,7 +89,7 @@
               height="200">
               <v-card-text>
                 <p class="text-center number">{{
-                  data.cases.recovered  === '' ? 'En proceso' : format(data.cases.recovered, false)
+                format(data.cases.recovered, false)
                 }}</p>
                 <h2 class="text-center pt-3">Total de recuperados</h2>
               </v-card-text>
@@ -185,20 +185,37 @@
     </v-row>-->
     <v-row>
       <v-col offset-sm="1" sm="10">
-        <p class="text-right">* Información recabada el día {{currentDate}}</p>
+        <p class="text-right">* Información recabada el dia {{currentDate}}</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col offset-sm="1" sm="10" class="mb-5">
+        <v-card>
+          <v-card-text>
+            <canvas id="line-chart" width="800" height="450"></canvas>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
+import Chart from 'chart.js'
 export default {
   name: 'countryComponent',
   data () {
     return {
+      myChart: null,
       country: '',
       currentDate: '',
       nameURI: '',
+      chart: {
+        labels: [],
+        data: [],
+        recovered: [],
+        deaths: []
+      },
       showCountryInfo: false,
       /*
       data: {
@@ -253,14 +270,40 @@ export default {
     },
     getCountryInfo () {
       this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this. nameURI}})
+      this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country:this. nameURI}})
+    },
+    generateChart () {
+      this.myChart = new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+          labels: this.chart.labels,
+          datasets: [{ 
+              data: this.chart.data,
+              label: "Confirmados",
+              borderColor: "#3e95cd",
+              fill: false
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Número de casos confirmados en ' + this.countryInfo.translations.es
+          }
+        }
+      })
     },
     format (number, opt) {
-      if (opt) {
-        number = number.substring(1)
-        return '+' + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      if (number === '' || number === null) {
+        return 'En proceso'
+      } else {
+        if (opt) {
+          number = number.substring(1)
+          return '+' + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
       }
-      return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
   }
 }
 </script>
