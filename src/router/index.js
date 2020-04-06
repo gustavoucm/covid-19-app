@@ -19,6 +19,16 @@ const CountryComponent = resolve => {
   })
 }
 
+const InfoComponent = resolve => {
+  require.ensure(['../container-components/Info/Info'], () => {
+    resolve(require('../container-components/Info/Info'))
+  })
+}
+
+function handleNotFound (to, from, next) {
+  next('/')
+}
+
 Vue.use(Router)
 const router = new Router({
   routes: [
@@ -36,6 +46,15 @@ const router = new Router({
       path: '/country/:name',
       name: 'global',
       component: CountryComponent
+    },
+    {
+      path: '/info',
+      name: 'info',
+      component: InfoComponent
+    },
+    {
+      path: '*',
+      beforeEnter: handleNotFound
     }
   ]
 })

@@ -6,23 +6,22 @@
       dark
     >
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <router-link
+          style="display: inline-flex"
+          to="/"
+          >
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink mr-2"
+            contain
+            src="./assets/img/virus.svg"
+            transition="scale-transition"
+            width="40"
+          />
+          <h3 class="shrink mt-1 hidden-sm-and-down">
+            COVID-19 MX
+          </h3>
+        </router-link>
       </div>
 
       <v-spacer></v-spacer>
@@ -34,8 +33,7 @@
         <span class="mr-2">Global</span>
       </v-btn>
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        to="/info"
         text
       >
         <span class="mr-2">Informate</span>
@@ -72,5 +70,9 @@ export default {
   }
   .main-background {
     background-color: #F8F7FF;
+  }
+  .shrink {
+    text-decoration: none;
+    color: white;
   }
 </style>
