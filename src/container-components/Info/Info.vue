@@ -16,7 +16,7 @@
       </v-row>
     </v-parallax>
     <v-row class="mt-5">
-      <v-col offset-sm="1" sm="10">
+      <v-col offset="1" cols="10">
         <h1 class="mb-2">¿Qué es un coronavirus?</h1>
         <p>Los coronavirus son una extensa familia de virus que pueden causar enfermedades tanto en animales 
           como en humanos. En los humanos, se sabe que varios coronavirus causan infecciones respiratorias 
@@ -26,7 +26,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col offset-sm="1" sm="10">
+      <v-col offset="1" cols="10">
         <h1 class="mb-2">¿Qué es la COVID-19?</h1>
         <p>Los coronavirus son una extensa familia de virus que pueden causar enfermedades tanto en animales 
           como en humanos. En los humanos, se sabe que varios coronavirus causan infecciones respiratorias 
@@ -36,7 +36,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col offset-sm="1" sm="10">
+      <v-col offset="1" cols="10">
         <h1 class="mb-2">¿Cuáles son los síntomas de la COVID-19?</h1>
         <p>Los síntomas más comunes de la COVID-19 son fiebre, cansancio y tos seca. Algunos pacientes pueden presentar dolores, 
            congestión nasal, rinorrea, dolor de garganta o diarrea. Estos síntomas suelen ser leves y aparecen de forma gradual.
@@ -50,7 +50,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col offset-sm="1" sm="10">
+      <v-col offset="1" cols="10">
         <h1 class="mb-2">¿Cómo se propaga la COVID-19?</h1>
         <p>Una persona puede contraer la COVID-19 por contacto con otra que esté infectada por el virus. La enfermedad puede 
           propagarse de persona a persona a través de las gotículas procedentes de la nariz o la boca que salen despedidas cuando 
@@ -64,7 +64,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col offset-sm="1" sm="10">
+      <v-col offset="1" cols="10">
         <h1 class="mb-2">¿Puede transmitirse a través del aire el virus causante de la COVID-19?</h1>
         <p>Los estudios realizados hasta la fecha apuntan a que el virus causante de la COVID-19 se transmite principalmente por contacto 
           con gotículas respiratorias, más que por el aire. Véase la respuesta anterior a la pregunta «¿Cómo se propaga la COVID-19?»

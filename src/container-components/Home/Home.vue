@@ -124,6 +124,7 @@
     <v-row
       v-if="!loading">
       <v-col sm="10" offset-sm="1" width="100%" height="60vh">
+        <h2 class="text-center mb-2">Mapa interactivo</h2>
         <iframe
           class="map mb-5"
           src="https://www.google.com/maps/d/embed?mid=1-XnTNpU7R4XiVewJh_nwcpUrtGgd4gwu">
