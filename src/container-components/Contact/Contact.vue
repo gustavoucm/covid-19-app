@@ -2,7 +2,8 @@
   <div>
     <div class="bg-white">
       <v-row>
-        <v-col offset-sm="1" sm="10">
+        <v-col offset-sm="1" sm="10" offset="1"
+          cols="10">
           <h1>Contacto</h1>
         </v-col>
       </v-row>
@@ -10,7 +11,9 @@
         <v-col
           class="mt-1"
           offset-sm="1"
-          sm="10" md="5">
+          sm="10" md="5"
+          offset="1"
+          cols="10">
           <v-card>
             <v-card-text>
               <h3 class="title-comment mb-5">ENVIAR COMENTARIOS</h3>
@@ -41,6 +44,8 @@
           class="mt-1"
           offset-sm="1"
           sm="10"
+          offset="1"
+          cols="10"
           md="5">
           <h4 class="title-comment mb-5 mt-4">
             INFORMACIÓN DE CONTACTO

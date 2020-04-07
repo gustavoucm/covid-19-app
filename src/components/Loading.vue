@@ -4,7 +4,7 @@
     <v-row>
       <v-col sm="12" class="text-center">
         <v-col sm="12">
-        <!-- <p class="loading">Cargando</p> -->
+        <p class="loading">Cargando</p>
       </v-col>
         <v-progress-circular
           :size="70"
@@ -26,7 +26,7 @@ export default {
   .loader {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.86);
   }
   .loading {
     font-size: 35px;
