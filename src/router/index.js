@@ -25,6 +25,12 @@ const InfoComponent = resolve => {
   })
 }
 
+const ContactComponent = resolve => {
+  require.ensure(['../container-components/Contact/Contact'], () => {
+    resolve(require('../container-components/Contact/Contact'))
+  })
+}
+
 function handleNotFound (to, from, next) {
   next('/')
 }
@@ -51,6 +57,11 @@ const router = new Router({
       path: '/info',
       name: 'info',
       component: InfoComponent
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: ContactComponent
     },
     {
       path: '*',

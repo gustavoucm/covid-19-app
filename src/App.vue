@@ -39,11 +39,10 @@
         <span class="mr-2">Informate</span>
       </v-btn>
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        to="/contact"
         text
       >
-        <span class="mr-2">Acerca de</span>
+        <span class="mr-2">Contacto</span>
       </v-btn>
     </v-app-bar>
 

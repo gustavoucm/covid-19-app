@@ -42,6 +42,10 @@ const mutations = {
     payload.event.context.chart.deaths = deaths
     payload.event.context.chart.recovered = recovered
     payload.event.context.generateChart()
+  },
+  onPostComment (state, payload) {
+    payload.event.context.reset()
+    payload.event.context.snackbar = true
   }
 }
 

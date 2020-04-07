@@ -1,4 +1,4 @@
-import {http, httpCountry, httpAS} from '../../../main'
+import {http, httpCountry, httpAS, httpFire} from '../../../main'
 
 const actions = {
   /* eslint-disable */
@@ -69,6 +69,17 @@ const actions = {
     httpAS.get(url, {}, {})
       .then(response => {
         commit('onGetHistoryByCountry', {event: payload.event, response})
+      },
+      error => {
+        commit('onError', {event: event.payload, error})
+      })
+  },
+  postComment ({commit, dispatch}, payload) {
+    let comment = payload.event.data
+    httpFire.collection('comments')
+      .add(comment)
+      .then(response => {
+        commit('onPostComment', {event: payload.event, response})
       },
       error => {
         commit('onError', {event: event.payload, error})

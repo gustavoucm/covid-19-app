@@ -5,6 +5,8 @@ import { store } from './store'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './router'
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
 
 import HomeComponent from './container-components/Home/Home'
 
@@ -21,6 +23,21 @@ export const httpCountry = Axios.create({
 export const httpAS = Axios.create({
   baseURL: 'https://covid-193.p.rapidapi.com/'
 })
+
+var firebaseConfig = {
+  apiKey: "AIzaSyBiM36F86FxCu8AlBBq3AxrOquFz4F5uGc",
+  authDomain: "covid-19-mx-b8638.firebaseapp.com",
+  databaseURL: "https://covid-19-mx-b8638.firebaseio.com",
+  projectId: "covid-19-mx-b8638",
+  storageBucket: "covid-19-mx-b8638.appspot.com",
+  messagingSenderId: "379085754285",
+  appId: "1:379085754285:web:7c640390ac766059df5b24",
+  measurementId: "G-6SNMC7FRJF"
+}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
+
+export const httpFire = firebase.firestore()
 
 Vue.use(Vuex)
 
