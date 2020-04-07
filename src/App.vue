@@ -49,6 +49,20 @@
     <v-content class="main-background">
       <router-view></router-view>
     </v-content>
+    <v-footer
+      dark
+      padless
+    >
+      <v-card
+        class="flex"
+        flat
+        tile
+      >
+       <v-card-text class="py-2 white--text text-center">
+        {{ new Date().getFullYear() }} — <strong>COVID-19 MX</strong>
+      </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
