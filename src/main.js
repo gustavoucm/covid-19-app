@@ -7,10 +7,12 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
+import LoadingComponent from './components/Loading'
 
 import HomeComponent from './container-components/Home/Home'
 
 Vue.component('HomeComponent', HomeComponent)
+Vue.component('LoadingComponent', LoadingComponent)
 
 export const http = Axios.create({
   baseURL: 'https://coronavirus-monitor.p.rapidapi.com/coronavirus/'

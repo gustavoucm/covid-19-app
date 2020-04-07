@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingComponent v-if="loading"></LoadingComponent>
     <v-row
       v-if="showCountryInfo">
       <v-col
@@ -14,7 +15,8 @@
           class="d-flex justify-center mex flag mt-3">
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-md="1" md="10">
         <v-row>
           <v-col class="mb-5" md="4" sm="6">
@@ -183,12 +185,14 @@
         </v-row>
       </v-col>
     </v-row>-->
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-sm="1" sm="10">
         <p class="text-right">* Información recabada el dia {{currentDate}}</p>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-sm="1" sm="10" class="mb-5">
         <v-card>
           <v-card-text>
@@ -206,6 +210,7 @@ export default {
   name: 'countryComponent',
   data () {
     return {
+      loading: true,
       myChart: null,
       country: '',
       currentDate: '',
@@ -278,6 +283,7 @@ export default {
       this.getCountryInfo()
     },
     getCountryInfo () {
+      this.loading = false
       this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this. nameURI}})
       this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country:this. nameURI}})
     },

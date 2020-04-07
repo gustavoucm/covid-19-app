@@ -1,7 +1,9 @@
 <template>
   <div>
+    <LoadingComponent v-if="loading"></LoadingComponent>
     <v-parallax
       dark
+      v-if="!loading"
       height="600"
       src="../../assets/img/background.jpg"
     >
@@ -16,7 +18,8 @@
       </v-row>
     </v-parallax>
     <h1 class="text-center mt-5 mb-5 ml-2 mr-2">Panorama actual en México</h1>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col xs="12">
       <img
         src="../../assets/img/mexico.svg"
@@ -25,7 +28,8 @@
         class="d-flex justify-center mex">
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-md="1" md="10">
         <v-row>
           <v-col class="mb-5" md="4" sm="6">
@@ -99,12 +103,14 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-sm="1" sm="10">
         <p class="text-right">* Información recabada el día {{currentDate}}</p>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col offset-sm="1" sm="10" class="mb-5">
         <v-card>
           <v-card-text>
@@ -115,7 +121,8 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+      v-if="!loading">
       <v-col sm="10" offset-sm="1" width="100%" height="60vh">
         <iframe
           class="map mb-5"
@@ -132,6 +139,7 @@ export default {
   name: 'HomeComponent',
   data () {
     return {
+      loading: true,
       currentDate: '',
       screenWidth: 0,
       labelAvailable: true,
@@ -178,6 +186,7 @@ export default {
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       this.currentDate = date.toLocaleDateString("es-ES", options)
       this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country: 'Mexico'}})
+      this.loading = false
     },
     generateChart () {
       this.myChart = new Chart(document.getElementById("line-chart"), {

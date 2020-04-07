@@ -1,6 +1,8 @@
 <template>
   <div>
+    <LoadingComponent v-if="loading"></LoadingComponent>
     <v-parallax
+       v-if="!loading"
       dark
       height="600"
       src="../../assets/img/earth.jpg"
@@ -15,7 +17,8 @@
         </v-col>
       </v-row>
     </v-parallax>
-    <v-row class="mt-5">
+    <v-row class="mt-5"
+       v-if="!loading">
       <v-col class="mb-5" md="4" sm="6">
         <v-card
           class="d-flex align-content-center flex-wrap mx-auto"
@@ -50,7 +53,8 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row class="mt-5 mb-5">
+    <v-row class="mt-5 mb-5"
+       v-if="!loading">
       <v-col sm="10" offset-sm="1">
         <v-data-table
           :headers="headers"
@@ -74,7 +78,8 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row
+       v-if="!loading">
       <v-col sm="10" offset-sm="1" width="100%" height="60vh">
         <iframe
           class="map mb-5"
@@ -91,6 +96,7 @@ export default {
   data () {
     return {
       data: [],
+      loading: true,
       search: '',
       worldStat: {
         total_cases: '',
@@ -156,6 +162,6 @@ export default {
     background-color: rgba(0,0,0,0.4) !important;
   }
   .world-panoram {
-    font-size: 5rem !important;
+    font-size: 4rem !important;
   }
 </style>

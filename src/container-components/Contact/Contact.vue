@@ -87,7 +87,7 @@ export default {
     return {
       valid: true,
       contact: '',
-      snackbar: true,
+      snackbar: false,
       description: '',
       required: [
         v => !!v || '* Este campo es requerido',
