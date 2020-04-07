@@ -209,6 +209,8 @@ export default {
       myChart: null,
       country: '',
       currentDate: '',
+      screenWidth: 0,
+      labelAvailable: true,
       nameURI: '',
       chart: {
         labels: [],
@@ -257,6 +259,13 @@ export default {
     }
   },
   created () {
+    this.screenWidth = screen.width
+    this.labelAvailable = screen.width < 600 ? false : true
+    window.addEventListener('resize', () => {
+      this.screenWidth = screen.width
+      this.labelAvailable = screen.width < 600 ? false : true
+      this.generateChart()
+    })
     this.nameURI = this.$route.params.name
     // this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
     this.$store.dispatch('coronavirus/getStatistics',{event: {context: this, country: this.nameURI}})
@@ -288,7 +297,14 @@ export default {
         options: {
           title: {
             display: true,
-            text: 'Número de casos confirmados en ' + this.countryInfo.translations.es
+            text: 'Número de casos confirmados en ' + (this.countryInfo.translations.es ? this.countryInfo.translations.es : this.nameURI)
+          },
+          scales: {
+            xAxes: [{
+                ticks: {
+                    display: this.labelAvailable
+                }
+            }]
           }
         }
       })

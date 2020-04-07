@@ -11,7 +11,7 @@
         justify="center"
       >
         <v-col class="text-center" cols="12">
-          <h1 class="display-4 mb-4">Informate</h1>
+          <h1 class="world-panoram display-4 mb-4">Informate</h1>
         </v-col>
       </v-row>
     </v-parallax>
@@ -86,5 +86,8 @@ export default {
   }
   .bg-white {
     background-color: white;
+  }
+  .world-panoram {
+    font-size: 5rem !important;
   }
 </style>

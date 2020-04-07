@@ -108,7 +108,9 @@
       <v-col offset-sm="1" sm="10" class="mb-5">
         <v-card>
           <v-card-text>
-            <canvas id="line-chart" width="800" height="450"></canvas>
+            <div class="wrapper">
+              <canvas id="line-chart" width="800" height="450"></canvas>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -131,6 +133,8 @@ export default {
   data () {
     return {
       currentDate: '',
+      screenWidth: 0,
+      labelAvailable: true,
       data: {
         country: '',
         latest_stat_by_country: [
@@ -159,6 +163,13 @@ export default {
     }
   },
   created() {
+    this.screenWidth = screen.width
+    this.labelAvailable = screen.width < 600 ? false : true
+    window.addEventListener('resize', () => {
+      this.screenWidth = screen.width
+      this.labelAvailable = screen.width < 600 ? false : true
+      this.generateChart()
+    })
     this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: 'Mexico'}})
   },
   methods: {
@@ -185,6 +196,13 @@ export default {
           title: {
             display: true,
             text: 'Número de casos confirmados en México'
+          },
+          scales: {
+            xAxes: [{
+                ticks: {
+                    display: this.labelAvailable
+                }
+            }]
           }
         }
       })

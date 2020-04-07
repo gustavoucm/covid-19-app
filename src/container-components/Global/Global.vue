@@ -11,7 +11,7 @@
         justify="center"
       >
         <v-col class="text-center" cols="12">
-          <h1 class="display-4 mb-4">Panorama Mundial</h1>
+          <h1 class="display-4 world-panoram mb-4">Panorama Mundial</h1>
         </v-col>
       </v-row>
     </v-parallax>
@@ -154,5 +154,8 @@ export default {
   }
   .parallax-row {
     background-color: rgba(0,0,0,0.4) !important;
+  }
+  .world-panoram {
+    font-size: 5rem !important;
   }
 </style>
