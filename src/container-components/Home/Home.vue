@@ -38,7 +38,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_cases}}</p>
+                <p class="text-center number">{{format(data.latest_stat_by_country[0].total_cases, false)}}</p>
                 <h2 class="text-center pt-3">Casos confirmados</h2>
               </v-card-text>
             </v-card>
@@ -49,7 +49,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_deaths}}</p>
+                <p class="text-center number">{{format(data.latest_stat_by_country[0].total_deaths, false)}}</p>
                 <h2 class="text-center pt-3">Defunciones</h2>
               </v-card-text>
             </v-card>
@@ -60,7 +60,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].serious_critical}}</p>
+                <p class="text-center number">{{format(data.latest_stat_by_country[0].serious_critical, false)}}</p>
                 <h2 class="text-center">Casos criticos</h2>
               </v-card-text>
             </v-card>
@@ -71,7 +71,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">+{{data.latest_stat_by_country[0].new_cases}}</p>
+                <p class="text-center number">{{format(data.latest_stat_by_country[0].new_cases, true)}}</p>
                 <h2 class="text-center">Nuevos casos</h2>
               </v-card-text>
             </v-card>
@@ -82,8 +82,8 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">+{{
-                  data.latest_stat_by_country[0].new_deaths === '' ? '-' : data.latest_stat_by_country[0].new_deaths
+                <p class="text-center number">{{
+                  format(data.latest_stat_by_country[0].new_deaths, true)
                 }}</p>
                 <h2 class="text-center">Nuevas defunciones</h2>
               </v-card-text>
@@ -95,7 +95,7 @@
               width="200"
               height="200">
               <v-card-text>
-                <p class="text-center number">{{data.latest_stat_by_country[0].total_cases_per1m}}</p>
+                <p class="text-center number">{{format(data.latest_stat_by_country[0].total_cases_per1m, false)}}</p>
                 <h2 class="text-center pt-3">Casos por cada millón de habitantes</h2>
               </v-card-text>
             </v-card>
@@ -216,7 +216,18 @@ export default {
           }
         }
       })
-    }
+    },
+     format (number, opt) {
+      if (number === '' || number === null) {
+        return 'En proceso'
+      } else {
+        if (opt) {
+          number = number.substring(1)
+          return '+' + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }
+      }
   }
 }
 </script>
