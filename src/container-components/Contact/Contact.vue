@@ -102,7 +102,7 @@ export default {
   methods: {
     postComment () {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch('coronavirus/postComment',
+        this.$store.dispatch('coronavirus/postReport',
           {
             event: {
               context: this,

@@ -49,6 +49,13 @@ const mutations = {
   onPostComment (state, payload) {
     payload.event.context.reset()
     payload.event.context.snackbar = true
+  },
+  onPostReport (state, payload) {
+    payload.event.context.showSnackbar('success', 'Reporte creado con éxito')
+    payload.event.context.reset()
+  },
+  onError (state, payload) {
+    payload.event.context.showSnackbar('danger', payload.error)
   }
 }
 

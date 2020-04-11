@@ -84,6 +84,17 @@ const actions = {
       error => {
         commit('onError', {event: event.payload, error})
       })
+  },
+  postReport ({commit, dispatch}, payload) {
+    let data = payload.event.data
+    httpFire.collection('report')
+      .add(data)
+      .then(response => {
+        commit('onPostReport', {event: payload.event, response})
+      },
+      error => {
+        commit('onError', {event: event.payload, error})
+      })
   }
 }
 

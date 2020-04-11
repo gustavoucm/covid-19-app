@@ -31,6 +31,12 @@ const ContactComponent = resolve => {
   })
 }
 
+const AddCasesComponent = resolve => {
+  require.ensure(['../container-components/Admin/AddCases'], () => {
+    resolve(require('../container-components/Admin/AddCases'))
+  })
+}
+
 function handleNotFound (to, from, next) {
   next('/')
 }
@@ -62,6 +68,11 @@ const router = new Router({
       path: '/contact',
       name: 'contact',
       component: ContactComponent
+    },
+    {
+      path: '/addReport',
+      name: 'addCases',
+      component: AddCasesComponent
     },
     {
       path: '*',
