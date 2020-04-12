@@ -193,10 +193,12 @@
     </v-row>
     <v-row
       v-if="!loading">
-      <v-col offset-sm="1" sm="10" class="mb-5">
+      <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
         <v-card>
           <v-card-text>
-            <canvas id="line-chart" width="800" height="450"></canvas>
+            <div id="chart">
+              <apexchart type="area" height="350" :options="chartOptions" :series="series"></apexchart>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -210,8 +212,72 @@ export default {
   name: 'countryComponent',
   data () {
     return {
+      showThisChart: false,
+      dataSeries: [],
+      series: [
+        {
+          name: 'Confirmados',
+          data: this.dataSeries
+        },
+        {
+          name: 'Defunciones',
+          data: this.dataSeries
+        }
+      ],
+      chartOptions: {
+        chart: {
+          type: 'area',
+          height: 350,
+          stacked: true,
+          events: {
+            selection: function (chart, e) {
+              console.log(new Date(e.xaxis.min))
+            }
+          },
+          defaultLocale: 'es',
+          locales: [{
+            name: 'es',
+            options: {
+              months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+              shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+              days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+              shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+              toolbar: {
+                download: 'Descargar SVG',
+                selection: 'Selección',
+                selectionZoom: 'Selección Zoom',
+                zoomIn: 'Acercar',
+                zoomOut: 'Alejar',
+                pan: 'Mover',
+                reset: 'Reset Zoom',
+              }
+            }
+          }]
+        },
+        // colors: ['#008FFB', '#00E396', '#CED4DC'],
+        colors: ['#e74c3c', '#00E396', '#008FFB'],
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            opacityFrom: 0.6,
+            opacityTo: 0.8,
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'left'
+        },
+        xaxis: {
+          type: 'datetime'
+        }
+      },
       loading: true,
-      myChart: null,
       country: '',
       currentDate: '',
       screenWidth: 0,
@@ -269,13 +335,29 @@ export default {
     window.addEventListener('resize', () => {
       this.screenWidth = screen.width
       this.labelAvailable = screen.width < 600 ? false : true
-      this.generateChart()
     })
     this.nameURI = this.$route.params.name
     // this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
     this.$store.dispatch('coronavirus/getStatistics',{event: {context: this, country: this.nameURI}})
   },
   methods: {
+    showChart() {
+      console.log('data', this.dataSeries)
+      this.series = this.dataSeries
+      this.showThisChart = true
+    },
+    generateDayWiseTimeSeries (baseval, count, yrange) {
+      var i = 0;
+      var series = [];
+      while (i < count) {
+        var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+    
+        series.push([baseval, y]);
+        baseval += 86400000;
+        i++;
+      }
+      return series;
+    },
     getDate () {
       let date = new Date(this.data.day)
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -286,34 +368,6 @@ export default {
       this.loading = false
       this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this. nameURI}})
       this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country:this. nameURI}})
-    },
-    generateChart () {
-      this.myChart = new Chart(document.getElementById("line-chart"), {
-        type: 'line',
-        data: {
-          labels: this.chart.labels,
-          datasets: [{ 
-              data: this.chart.data,
-              label: "Confirmados",
-              borderColor: "#3e95cd",
-              fill: false
-            }
-          ]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Número de casos confirmados en ' + (this.countryInfo.translations.es ? this.countryInfo.translations.es : this.nameURI)
-          },
-          scales: {
-            xAxes: [{
-                ticks: {
-                    display: this.labelAvailable
-                }
-            }]
-          }
-        }
-      })
     },
     format (number, opt) {
       if (number === '' || number === null) {

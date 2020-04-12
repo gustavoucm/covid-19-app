@@ -10,7 +10,9 @@ import 'firebase/firestore'
 import LoadingComponent from './components/Loading'
 
 import HomeComponent from './container-components/Home/Home'
+import VueApexCharts from 'vue-apexcharts'
 
+Vue.component('apexchart', VueApexCharts)
 Vue.component('HomeComponent', HomeComponent)
 Vue.component('LoadingComponent', LoadingComponent)
 

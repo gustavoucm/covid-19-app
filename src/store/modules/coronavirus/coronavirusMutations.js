@@ -4,7 +4,12 @@ const mutations = {
     payload.event.context.getDate()
   },
   onGetByCountry (state, payload) {
-    payload.event.context.data = payload.response.data.countries_stat
+    let countries = payload.response.data.countries_stat
+    console.log(countries[0])
+    if (countries[0].country_name === "") {
+      countries.splice(0, 1)
+    }
+    payload.event.context.data = countries
   },
   onGetWorldStat(state, payload) {
     payload.event.context.worldStat = payload.response.data
@@ -22,29 +27,31 @@ const mutations = {
   },
   onGetHistoryByCountry(state, payload) {
     let history = payload.response.data.response
-    let labels = []
     let data = []
-    let deaths = []
     let recovered = []
-    let n = history.length < 16 ? history.length : 16
+    let confirm = []
+    let deaths = []
+    let n = history.length < 20 ? history.length : 20
     for (let i = 0; i < n; i++) {
-      // let date = new Date(history[i].time)
-      let dateStr = history[i].time
-      let date = dateStr.substring(0, 10)
-      let time = dateStr.substring(11, 16)
-      let dateFormatted = date + '\n' + time
-      labels.push(dateFormatted)
-      data.push(history[i].cases.total)
-      deaths.push(history[i].deaths.total)
-      recovered.push(history[i].cases.recovered)
+      let date = new Date(history[i].time)
+      confirm.push([date.getTime(), history[i].cases.total])
+      deaths.push([date.getTime(), history[i].deaths.total])
+      recovered.push([date.getTime(), history[i].cases.recovered])
     }
-    data.reverse()
-    labels.reverse()
-    payload.event.context.chart.labels = labels
-    payload.event.context.chart.data = data
-    payload.event.context.chart.deaths = deaths
-    payload.event.context.chart.recovered = recovered
-    payload.event.context.generateChart()
+    data.push({
+      name: 'Defunciones',
+      data: deaths
+    })
+    data.push({
+      name: 'Recuperados',
+      data: recovered
+    })
+    data.push({
+      name: 'Confirmados',
+      data: confirm
+    })
+    payload.event.context.dataSeries = data
+    payload.event.context.showChart()
   },
   onPostComment (state, payload) {
     payload.event.context.reset()
