@@ -125,7 +125,7 @@
       <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
         <v-card>
           <v-card-text>
-            <img :src="imgMap" alt="Map">
+            <img :src="imgMap" alt="Map" width="100%">
           </v-card-text>
         </v-card>
       </v-col>
@@ -134,7 +134,7 @@
       <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
         <v-card>
           <v-card-text>
-            <img :src="ratioMap" alt="Map">
+            <img :src="ratioMap" alt="Map" width="100%">
           </v-card-text>
         </v-card>
       </v-col>
@@ -349,5 +349,8 @@ export default {
   }
   .world-panoram {
     font-size: 4rem !important;
+  }
+  img {
+    width: 100%
   }
 </style>

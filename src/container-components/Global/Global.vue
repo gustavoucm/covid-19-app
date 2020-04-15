@@ -59,6 +59,7 @@
         <v-data-table
           :headers="headers"
           :items="data"
+          rows-per-page-text="Rijen per pagina"
           :search="search"
           :items-per-page="10"
           class="elevation-1"
