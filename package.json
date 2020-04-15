@@ -11,7 +11,6 @@
   "dependencies": {
     "apexcharts": "^3.18.1",
     "axios": "^0.19.2",
-    "chart.js": "^2.9.3",
     "core-js": "^2.6.5",
     "express": "^4.17.1",
     "firebase": "^7.13.2",

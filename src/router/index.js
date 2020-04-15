@@ -37,6 +37,12 @@ const AddCasesComponent = resolve => {
   })
 }
 
+const MexicoComponent = resolve => {
+  require.ensure(['../container-components/Mexico/Mexico'], () => {
+    resolve(require('../container-components/Mexico/Mexico'))
+  })
+}
+
 function handleNotFound (to, from, next) {
   next('/')
 }
@@ -73,6 +79,11 @@ const router = new Router({
       path: '/addReport',
       name: 'addCases',
       component: AddCasesComponent
+    },
+    {
+      path: '/mexico',
+      name: 'mexico',
+      component: MexicoComponent
     },
     {
       path: '*',

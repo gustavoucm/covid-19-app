@@ -64,6 +64,7 @@
             <img class="profile-img" src="../../assets/img/profile.png" alt="profile">
           </v-avatar>
           <span >Gustavo Uriel Caixba Morales</span>
+          <div class="mt-2">Iconos creados por <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> de <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </v-col>
       </v-row>
     </div>
@@ -102,7 +103,7 @@ export default {
   methods: {
     postComment () {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch('coronavirus/postReport',
+        this.$store.dispatch('coronavirus/postComment',
           {
             event: {
               context: this,

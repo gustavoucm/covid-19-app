@@ -29,20 +29,19 @@
       </div>
 
       <v-spacer></v-spacer>
-
+      <v-btn
+        v-if="show"
+        to="/mexico"
+        text
+      >
+        <span class="mr-2">México</span>
+      </v-btn>
       <v-btn
         v-if="show"
         to="/global"
         text
       >
         <span class="mr-2">Global</span>
-      </v-btn>
-      <v-btn
-        v-if="show"
-        to="/info"
-        text
-      >
-        <span class="mr-2">Informate</span>
       </v-btn>
       <v-btn
         v-if="show"
@@ -91,14 +90,14 @@
             <v-list-item-title>Inicio</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/global">
+        <v-list-item link to="/mexico">
           <v-list-item-content>
-            <v-list-item-title>Global</v-list-item-title>
+            <v-list-item-title>Mexico</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/info">
+          <v-list-item link to="/global">
           <v-list-item-content>
-            <v-list-item-title>Informate</v-list-item-title>
+            <v-list-item-title>Global</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link to="/contact">

@@ -1,20 +1,22 @@
 <template>
   <div>
     <LoadingComponent v-if="loading"></LoadingComponent>
-    <v-row
-      v-if="showCountryInfo">
-      <v-col
-        md="10"
-        class="text-center"
-        offset-md="1">
-        <h1>{{countryInfo.translations.es}}</h1>
-        <img
-          :src="countryInfo.flag"
-           width="350"
-          :alt="countryInfo.translations.es + ' flag'"
-          class="d-flex justify-center mex flag mt-3">
-      </v-col>
-    </v-row>
+    <v-parallax
+      dark
+      v-if="!loading"
+      height="600"
+      src="https://restcountries.eu/data/mex.svg"
+    >
+      <v-row
+        align="center"
+        justify="center"
+        class="parallax-row"
+      >
+        <v-col class="text-center" cols="12">
+          <h1 class="display-4 world-panoram mb-4">Panorama en México</h1>
+        </v-col>
+      </v-row>
+    </v-parallax>
     <v-row
       v-if="!loading">
       <v-col offset-md="1" md="10">
@@ -100,108 +102,63 @@
         </v-row>
       </v-col>
     </v-row>
-    <!--
-    <v-row>
-      <v-col offset-md="1" md="10">
-        <v-row>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].total_cases  === '' ? 'En proceso': data.latest_stat_by_country[0].total_cases
-                }}</p>
-                <h2 class="text-center pt-3">Casos confirmados</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].total_deaths === '' ? 'En proceso': data.latest_stat_by_country[0].total_deaths
-                }}</p>
-                <h2 class="text-center pt-3">Defunciones</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].serious_critical === '' ? 'En proceso' : data.latest_stat_by_country[0].serious_critical
-                }}</p>
-                <h2 class="text-center">Casos criticos</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].new_cases  === '' ? 'En proceso' :data.latest_stat_by_country[0].new_cases
-                }}</p>
-                <h2 class="text-center">Nuevos casos</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].new_deaths === '' ? 'En proceso' : data.latest_stat_by_country[0].new_deaths
-                }}</p>
-                <h2 class="text-center">Nuevas defunciones</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col class="mb-5" md="4" sm="6">
-            <v-card
-              class="d-flex align-content-center flex-wrap mx-auto"
-              width="200"
-              height="200">
-              <v-card-text>
-                <p class="text-center number">{{
-                  data.latest_stat_by_country[0].total_cases_per1m  === '' ? 'En proceso' : data.latest_stat_by_country[0].total_cases_per1m
-                }}</p>
-                <h2 class="text-center pt-3">Casos por cada millón de habitantes</h2>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>-->
     <v-row
       v-if="!loading">
       <v-col offset-sm="1" sm="10">
-        <p class="text-right">* Información recabada el dia {{currentDate}}</p>
+        <p class="text-right">* Información recabada el día {{currentDate}}</p>
       </v-col>
     </v-row>
     <v-row
       v-if="!loading">
+      <v-col offset-sm="1" sm="10" class="mb-5" v-if="showHistory">
+        <v-card>
+          <v-card-text>
+            <h1 class="text-center">Historial</h1>
+            <div id="chartA">
+              <apexchart type="area" height="350" :options="chartOptionsA" :series="seriesA"></apexchart>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
+        <v-card>
+          <v-card-text>
+            <img :src="imgMap" alt="Map">
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
+        <v-card>
+          <v-card-text>
+            <img :src="ratioMap" alt="Map">
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col offset-sm="1" sm="10" class="mb-5" v-if="showThisChart">
         <v-card>
           <v-card-text>
             <div id="chart">
-              <h1 class="text-center">Historial</h1>
-              <apexchart type="area" height="350" :options="chartOptions" :series="series"></apexchart>
+              <h1 class="text-center">Casos por estado</h1>
+              <apexchart type="bar" height="750" :options="chartOptions" :series="series"></apexchart>
             </div>
           </v-card-text>
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row
+      v-if="!loading">
+      <v-col sm="10" offset-sm="1" width="100%" height="60vh">
+        <h2 class="text-center mb-2">Mapa interactivo</h2>
+        <iframe
+          class="map mb-5"
+          src="https://www.google.com/maps/d/embed?mid=1-XnTNpU7R4XiVewJh_nwcpUrtGgd4gwu">
+        </iframe>
       </v-col>
     </v-row>
   </div>
@@ -209,12 +166,17 @@
 
 <script>
 export default {
-  name: 'countryComponent',
+  name: 'MexicoComponent',
   data () {
     return {
+      currentDate: '',
+      loading: false,
+      imgMap: '',
+      ratioMap: '',
       showThisChart: false,
+      showHistory: false,
       dataSeries: [],
-      series: [
+      seriesA: [
         {
           name: 'Confirmados',
           data: this.dataSeries
@@ -224,7 +186,7 @@ export default {
           data: this.dataSeries
         }
       ],
-      chartOptions: {
+      chartOptionsA: {
         chart: {
           type: 'area',
           height: 350,
@@ -278,39 +240,41 @@ export default {
           type: 'datetime'
         }
       },
-      loading: true,
-      country: '',
-      currentDate: '',
-      screenWidth: 0,
-      labelAvailable: true,
-      nameURI: '',
-      chart: {
-        labels: [],
-        data: [],
-        recovered: [],
-        deaths: []
-      },
-      showCountryInfo: false,
-      /*
-      data: {
-        country: '',
-        latest_stat_by_country: [
-          {
-            id: '',
-            country_name: '',
-            total_cases: '-',
-            new_cases: '-',
-            active_cases: '-',
-            total_deaths: '-',
-            new_deaths: '-',
-            total_recovered: '-',
-            serious_critical: '-',
-            region: null,
-            total_cases_per1m: '-',
-            record_date: ''
+      series: [{
+        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+      }],
+      chartOptions: {
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
           }
-        ]
-      },*/
+        },
+        dataLabels: {
+          enabled: false
+        },
+        xaxis: {
+          categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+            'United States', 'China', 'Germany'
+          ],
+        },
+        tooltip: {
+          theme: 'dark',
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function () {
+                return ''
+              }
+            }
+          }
+        }
+      },
       data: {
         country: '',
         cases: {
@@ -326,38 +290,30 @@ export default {
         },
         day: '',
         time: ''
-      },
-      countryInfo: null
+      }
     }
   },
   created () {
-    this.nameURI = this.$route.params.name
-    // this.$store.dispatch('coronavirus/getLastByCountry',{event: {context: this, country: this.nameURI}})
-    console.log(this.nameURI)
-     if (this.nameURI == 'S. Korea') {
-        this.$store.dispatch('coronavirus/getStatistics', {event: {context: this, country: 'South korea'}})
-      } else {
-        this.$store.dispatch('coronavirus/getStatistics',{event: {context: this, country:this.nameURI}})
-      }
+    this.$store.dispatch('coronavirus/getStatistics',{event: {context: this, country: 'Mexico'}})
+    this.$store.dispatch('coronavirus/getMexStatistics',
+          {
+            event: {
+              context: this
+            }
+          }
+     )
   },
   methods: {
-    showChart() {
-      this.series = this.dataSeries
-      this.showThisChart = true
+    showChart () {
+      this.seriesA = this.dataSeries
+      this.showHistory = true
     },
     getDate () {
       let date = new Date(this.data.day)
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
       this.currentDate = date.toLocaleDateString("es-ES", options)
-      this.getCountryInfo()
-    },
-    getCountryInfo () {
-      if (this.nameURI === 'S.%20Korea') {
-        this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country: 'South korea'}})
-      } else {
-        this.$store.dispatch('coronavirus/getCountryInfo',{event: {context: this, country:this.nameURI}})
-      }
-      this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country:this.nameURI}})
+      this.$store.dispatch('coronavirus/getHistoryByCountry',{event: {context: this, country: 'Mexico'}})
+      this.loading = false
     },
     format (number, opt) {
       if (number === '' || number === null) {
@@ -367,8 +323,8 @@ export default {
           number = number.substring(1)
           return '+' + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         }
-          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-        }
+        return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      }
     }
   }
 }
@@ -376,12 +332,22 @@ export default {
 
 <style scoped>
   .number {
-    font-size: 45px;
+    font-size: 50px;
     color: #e74c3c;
     font-weight: 700;
     line-height: 38px;
   }
-  .flag {
+  .mex {
     margin: 0 auto;
+  }
+  .map {
+    width: 100%;
+    height: 80vh;
+  }
+  .parallax-row {
+    background-color: rgba(0,0,0,0.6) !important;
+  }
+  .world-panoram {
+    font-size: 4rem !important;
   }
 </style>

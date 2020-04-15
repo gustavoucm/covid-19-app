@@ -95,6 +95,17 @@ const actions = {
       error => {
         commit('onError', {event: event.payload, error})
       })
+  },
+  getMexStatistics ({commit, dispatch}, payload) {
+    httpFire.collection('report').orderBy('date').get().then((querySnapshot) => {
+      let data = []
+      querySnapshot.forEach((doc) => {
+        data.push(doc.data())
+      })
+      commit('onGetMexStatistics', {event: payload.event, data})
+    }).catch(error => {
+      commit('onError', {event: event.payload, error})
+    })
   }
 }
 
