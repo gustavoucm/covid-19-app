@@ -158,4 +158,7 @@ export default {
     text-decoration: none;
     color: white;
   }
+  html {
+    width: 101vw;
+  }
 </style>
