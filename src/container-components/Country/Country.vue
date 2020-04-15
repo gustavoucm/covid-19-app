@@ -12,7 +12,7 @@
           :src="countryInfo.flag"
            width="350"
           :alt="countryInfo.translations.es + ' flag'"
-          class="d-flex justify-center mex flag mt-3">
+          class="d-flex justify-center mex flag mt-3 pl-1 pr-1">
       </v-col>
     </v-row>
     <v-row
