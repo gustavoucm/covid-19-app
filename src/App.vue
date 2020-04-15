@@ -159,6 +159,6 @@ export default {
     color: white;
   }
   html {
-    width: 101vw;
+    width: 100vw;
   }
 </style>
