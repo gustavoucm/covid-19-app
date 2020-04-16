@@ -1,24 +1,36 @@
-# coronavirus
+# Covid-19 app
 
-## Project setup
-```
+Sitio web de seguimiento de casos de covid-19
+
+## Demo del sitio
+Ver [Covid-19 MX](https://covid-19mx.herokuapp.com/).
+
+## Desarrollado por 
+Gustavo Uriel Caixba Morales
+
+# Detalles técnicos
+
+## Instalación
+
+```bash
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+### Para ejecutar en modo de desarrollo de manera local
+```bash
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
+### Para crear el archivo compilado para producción
+```bash
 npm run build
 ```
 
-### Lints and fixes files
-```
+### Para ejecutar lints
+```bash
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Licencia
+[MIT](https://choosealicense.com/licenses/mit/)
+
