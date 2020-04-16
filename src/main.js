@@ -28,6 +28,10 @@ export const httpAS = Axios.create({
   baseURL: 'https://covid-193.p.rapidapi.com/'
 })
 
+export const httpMap = Axios.create({
+  baseURL: 'https://coronavirus-map.p.rapidapi.com/v1/'
+})
+
 var firebaseConfig = {
   apiKey: "AIzaSyBiM36F86FxCu8AlBBq3AxrOquFz4F5uGc",
   authDomain: "covid-19-mx-b8638.firebaseapp.com",

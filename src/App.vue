@@ -165,4 +165,7 @@ export default {
     height: 100vh !important;
     position: fixed !important;
   }
+  .apexcharts-toolbar {
+    top: 20px !important;
+  }
 </style>

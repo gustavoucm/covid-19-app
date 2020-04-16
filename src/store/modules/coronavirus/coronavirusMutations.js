@@ -83,6 +83,33 @@ const mutations = {
   },
   onError (state, payload) {
     payload.event.context.showSnackbar('danger', payload.error)
+  },
+  onGetSumarySpots (state, payload) {
+    let response = payload.response.data.data
+    let recovered = []
+    let data = []
+    let confirm = []
+    let deaths = []
+    for (let obj in response) {
+      let date = new Date(obj)
+      confirm.push([date.getTime(), response[obj].total_cases])
+      deaths.push([date.getTime(), response[obj].deaths])
+      recovered.push([date.getTime(), response[obj].recovered])
+    }
+    data.push({
+      name: 'Defunciones',
+      data: deaths
+    })
+    data.push({
+      name: 'Recuperados',
+      data: recovered
+    })
+    data.push({
+      name: 'Confirmados',
+      data: confirm
+    })
+    payload.event.context.dataSeries = data
+    payload.event.context.showChart()
   }
 }
 

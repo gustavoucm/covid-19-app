@@ -1,4 +1,4 @@
-import {http, httpCountry, httpAS, httpFire} from '../../../main'
+import {http, httpCountry, httpAS, httpFire, httpMap} from '../../../main'
 
 const actions = {
   /* eslint-disable */
@@ -106,6 +106,18 @@ const actions = {
     }).catch(error => {
       commit('onError', {event: event.payload, error})
     })
+  },
+  getSumarySpots ({commit, dispatch}, payload) {
+    let url = `spots/summary`
+    httpMap.defaults.headers.common['x-rapidapi-host'] = 'coronavirus-map.p.rapidapi.com'
+    httpMap.defaults.headers.common['x-rapidapi-key'] = 'beff65a3c7mshcff81f1e403bdcep1bfd92jsnfb2bbf4a1692'
+    httpMap.get(url, {}, {})
+      .then(response => {
+        commit('onGetSumarySpots', {event: payload.event, response})
+      },
+      error => {
+        commit('onError', {event: event.payload, error})
+      })
   }
 }
 

@@ -366,6 +366,6 @@ export default {
     background-color: #f1c40f;
     color: white;
     text-align: center;
-    font-size: 4rem;
+    font-size: 3rem;
   }
 </style>
