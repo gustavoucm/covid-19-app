@@ -18,6 +18,15 @@
       </v-row>
     </v-parallax>
     <v-row
+      class="mt-5">
+      <v-col offset="1" cols="10">
+        <div class="phase">
+          Fase 2
+        </div>
+      </v-col>
+    </v-row>
+    <v-row
+      class="mt-5"
       v-if="!loading">
       <v-col offset-md="1" md="10">
         <v-row>
@@ -352,5 +361,11 @@ export default {
   }
   img {
     width: 100%
+  }
+  .phase {
+    background-color: #f1c40f;
+    color: white;
+    text-align: center;
+    font-size: 4rem;
   }
 </style>

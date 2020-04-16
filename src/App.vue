@@ -161,4 +161,8 @@ export default {
   html {
     width: 100vw;
   }
+  .v-navigation-drawer {
+    height: 100vh !important;
+    position: fixed !important;
+  }
 </style>
